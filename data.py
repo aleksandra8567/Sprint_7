@@ -1,31 +1,31 @@
 class Data:
     BASE_URL = "https://qa-scooter.praktikum-services.ru/"
 
-    URL_courier_create = f"{BASE_URL}api/v1/courier"
-    URL_courier_login = f"{BASE_URL}api/v1/courier/login"
-    URL_courier_delete_template = f"{BASE_URL}api/v1/courier/{{id}}"
-    URL_orders_create = f"{BASE_URL}api/v1/orders"
-    URL_orders_list = f"{BASE_URL}api/v1/orders"
+    URL_COURIER_CREATE = f"{BASE_URL}api/v1/courier"
+    URL_COURIER_LOGIN = f"{BASE_URL}api/v1/courier/login"
+    URL_COURIER_DELETE_TEMPLATE = f"{BASE_URL}api/v1/courier/{{id}}"
+    URL_ORDERS_CREATE = f"{BASE_URL}api/v1/orders"
+    URL_ORDERS_LIST = f"{BASE_URL}api/v1/orders"
 
-    valid_login = "Sergo2611"
-    valid_password = "qwerty"
-    valid_firstname = "Ser"
-    valid_courier_data = {
+    VALID_LOGIN = "Sergo2611"
+    VALID_PASSWORD = "qwerty"
+    VALID_FIRSTNAME = "Ser"
+    VALID_COURIER_DATA = {
         "login": "Sergo2611",
         "password": "qwerty",
         "firstName": "Sergo"
     }
-    courier_data_without_name = {
+    COURIER_DATA_WITHOUT_NAME = {
         "login": "Sergo2611",
         "password": "qwerty"
     }
-    courier_data_with_wrong_password = {
+    COURIER_DATA_WITH_WRONG_PASSWORD = {
         "login": "Sergo2611",
         "password": "123456"
     }
 
 class OrderData:
-    order_data_grey_1 = {
+    ORDER_DATA_GREY_1 = {
         "firstName": "Павел",
         "lastName": "Пашин",
         "address": "Открытое шоссе, 5к11",
@@ -37,7 +37,7 @@ class OrderData:
         "color": ["GREY"]
     }
 
-    order_data_black_2 = {
+    ORDER_DATA_BLACK_2 = {
         "firstName": "Костя",
         "lastName": "Костыгин",
         "address": "Большая Семёновская улица, 24",
@@ -49,7 +49,7 @@ class OrderData:
         "color": ["BLACK"]
     }
 
-    order_data_two_colors_3 = {
+    ORDER_DATA_TWO_COLORS_3 = {
         "firstName": "Илья",
         "lastName": "Илюшин",
         "address": "площадь Рогожская Застава, 2/1с2",
@@ -61,7 +61,7 @@ class OrderData:
         "color": ["BLACK", "GREY"]
     }
 
-    order_data_no_colors_4 = {
+    ORDER_DATA_NO_COLORS_4 = {
         "firstName": "Баба",
         "lastName": "Бабина",
         "address": "Волгоградский проспект, 28А",
