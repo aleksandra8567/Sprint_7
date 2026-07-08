@@ -21,14 +21,14 @@ class TestCourierCreate:
     @allure.step("Формируем payload с заранее известным валидным логином (для проверки конфликта)")
     def _get_payload_with_taken_login(self):
         return {
-            'login': Data.valid_login,
+            'login': Data.VALID_LOGIN,
             'password': create_random_password(),
             'firstName': create_random_firstname()
         }
 
     @allure.step("Отправляем POST-запрос на создание курьера")
     def _send_create_courier_request(self, payload):
-        return requests.post(Data.URL_courier_create, data=payload)
+        return requests.post(Data.URL_COURIER_CREATE, data=payload)
 
     @allure.title('Проверка успешного создания аккаунта курьера с валидными данными')
     @allure.description('Проверяются код и тело ответа.')

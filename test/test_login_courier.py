@@ -12,7 +12,7 @@ class TestCourierLogin:
     @allure.title('Проверка успешной аутентификации курьера при вводе валидных данных')
     @allure.description('Проверяются код и тело ответа.')
     def test_courier_login_success(self):
-        response = requests.post(Data.URL_courier_login, data=Data.courier_data_without_name)
+        response = requests.post(Data.URL_COURIER_LOGIN, data=Data.VALID_COURIER_DATA)
 
         assert response.status_code == 200, f"Ожидался статус 200, получен {response.status_code}. Ответ: {response.text}"
         assert 'id' in response.json(), f"В ответе отсутствует поле 'id'. Ответ: {response.json()}"
@@ -24,10 +24,10 @@ class TestCourierLogin:
     )
     @pytest.mark.parametrize('nonexistent_credentials', [
         {'login': create_random_login(), 'password': create_random_password()},
-        Data.courier_data_with_wrong_password
+        Data.COURIER_DATA_WITH_WRONG_PASSWORD
     ])
     def test_courier_login_nonexistent_data_not_found(self, nonexistent_credentials):
-        response = requests.post(Data.URL_courier_login, data=nonexistent_credentials)
+        response = requests.post(Data.URL_COURIER_LOGIN, data=nonexistent_credentials)
 
         expected_message = 'Учетная запись не найдена'
         assert response.status_code == 404, f"Ожидался статус 404, получен {response.status_code}"
@@ -40,10 +40,10 @@ class TestCourierLogin:
     )
     @pytest.mark.parametrize('empty_credentials', [
         {'login': '', 'password': create_random_password()},
-        {'login': Data.valid_login, 'password': ''}
+        {'login': Data.VALID_LOGIN, 'password': ''}
     ])
     def test_courier_login_empty_credentials_bad_request(self, empty_credentials):
-        response = requests.post(Data.URL_courier_login, data=empty_credentials)
+        response = requests.post(Data.URL_COURIER_LOGIN, data=empty_credentials)
 
         expected_message = 'Недостаточно данных для входа'
         assert response.status_code == 400, f"Ожидался статус 400, получен {response.status_code}"
