@@ -1,5 +1,4 @@
 import logging
-import requests
 import pytest
 from data import Data
 from helpers import (
@@ -7,6 +6,7 @@ from helpers import (
     create_random_password,
     create_random_firstname,
 )
+from api_client import ApiClient
 
 logger = logging.getLogger(__name__)
 
@@ -16,28 +16,37 @@ def created_courier():
     password = create_random_password()
     first_name = create_random_firstname()
 
-    payload = {
+    payload_create = {
         "login": login,
         "password": password,
         "firstName": first_name,
     }
 
-    resp_create = requests.post(Data.URL_courier_create, data=payload, timeout=10)
-
+    resp_create = ApiClient.create_courier(Data.URL_COURIER_CREATE, payload_create)
     if resp_create.status_code != 201:
         raise RuntimeError(
             f"Не удалось создать курьера. Статус: {resp_create.status_code}, "
             f"ответ: {resp_create.text}"
         )
 
-    response_data = resp_create.json()
-
-    if isinstance(response_data, dict) and "id" in response_data:
-        courier_id = response_data["id"]
-    else:
+    payload_login = {
+        "login": login,
+        "password": password,
+    }
+    resp_login = ApiClient.courier_login(Data.URL_COURIER_LOGIN, payload_login)
+    if resp_login.status_code != 200:
         raise RuntimeError(
-            f"Неожиданный формат ответа при создании курьера: {response_data}"
+            f"Не удалось получить id курьера через логин. Статус: {resp_login.status_code}, "
+            f"ответ: {resp_login.text}"
         )
+
+    response_data = resp_login.json()
+    if not isinstance(response_data, dict) or "id" not in response_data:
+        raise RuntimeError(
+            f"Неожиданный формат ответа при логине курьера: {response_data}"
+        )
+
+    courier_id = response_data["id"]
 
     courier_data = {
         "login": login,
@@ -48,10 +57,8 @@ def created_courier():
 
     yield courier_data
 
-    delete_url = f"{Data.BASE_URL}api/v1/courier/{courier_id}"
-
     try:
-        resp_delete = requests.delete(delete_url, timeout=5)
+        resp_delete = ApiClient.delete_courier(Data.URL_COURIER_DELETE_TEMPLATE, courier_id)
         if resp_delete.status_code not in (200, 204, 404):
             logger.warning(
                 "Не удалось корректно удалить курьера %s. Статус: %s, ответ: %s",

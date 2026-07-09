@@ -24,6 +24,7 @@ class Data:
         "password": "123456"
     }
 
+
 class OrderData:
     ORDER_DATA_GREY_1 = {
         "firstName": "Павел",
