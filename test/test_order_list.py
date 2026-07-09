@@ -2,7 +2,6 @@ import requests
 import allure
 from data import Data
 
-
 class TestOrdersListGet:
 
     @allure.title('Проверка получения списка заказов')

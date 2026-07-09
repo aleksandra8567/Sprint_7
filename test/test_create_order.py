@@ -1,8 +1,11 @@
-import requests
 import allure
 import pytest
-import json
+import logging
 from data import Data, OrderData
+from api_client import ApiClient
+
+logger = logging.getLogger(__name__)
+
 
 class TestOrderCreate:
 
@@ -16,18 +19,11 @@ class TestOrderCreate:
         OrderData.ORDER_DATA_GREY_1,
         OrderData.ORDER_DATA_BLACK_2,
         OrderData.ORDER_DATA_TWO_COLORS_3,
-        OrderData.ORDER_DATA_NO_COLORS_4
+        OrderData.ORDER_DATA_NO_COLORS_4,
     ])
     def test_order_create_color_parametrize_success(self, order_data):
-        payload = json.dumps(order_data)
-        headers = {'Content-Type': 'application/json'}
+        response = ApiClient.create_order(Data.URL_ORDERS_CREATE, order_data)
 
-        response = requests.post(
-            Data.URL_ORDERS_CREATE,
-            data=payload,
-            headers=headers,
-            timeout=5
-        )
-
-        assert response.status_code == 201, f"Ожидался статус 201, получен {response.status_code}. Ответ: {response.text}"
-        assert 'track' in response.text, f"В ответе отсутствует поле 'track'. Ответ: {response.text}"
+        assert response.status_code == 201, f"Ожидался статус 201, получен {response.status_code}"
+        json_body = response.json()
+        assert 'track' in json_body, f"В ответе отсутствует поле 'track'. Ответ: {response.text}"
